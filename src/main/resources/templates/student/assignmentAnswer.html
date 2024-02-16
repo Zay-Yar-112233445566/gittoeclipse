@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/student :: headLink"></head>
+<body>
+	<!--wrapper-->
+	<div class="wrapper">
+		<div class="sidebar-wrapper" data-simplebar="true">
+			<div class="sidebar-header">
+				<div>
+					<img src="/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+				</div>
+				<div>
+					<h4 class="logo-text">Student</h4>
+				</div>
+				<div class="toggle-icon ms-auto">				
+				</div>
+			 </div>
+			<ul class="metismenu" id="menu" th:replace="layout/student :: sidebar"></ul>
+				</li>
+			</ul>
+		</div>
+		<!--end sidebar wrapper -->
+		<!--start header -->
+		<header th:replace="layout/student :: headerSection"></header>
+		<!--end header -->
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+						<div class="page-content">
+				<div class="container">
+					<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+						<div class="breadcrumb-title pe-3">School Management</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8 mx-auto rounded border p-4 m-4">
+						<h5 class="text-center mb-3 text-success"  th:unless="${tcsa.status == 1}">You have  answered this assignment!!</h5>
+							<h5 class="text-center mb-3 text-success"  th:if="${tcsa.status == 2}">Teacher  already checked your assignment!!</h5>
+							<h2 class="text-center mb-5">Assignment Answer Form</h2>
+							<div class="row mb-3">
+								<h6 class="col-sm-4 ">Class Name</h6>
+								<div class="col-sm-8">
+									<h6 th:text="${assignments.teacherCourses.name}"></h6>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<h6 class="col-sm-4 ">Assignment Title</h6>
+								<div class="col-sm-8">
+									<h6 th:text="${assignments.title}"></h6>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<h6 class="col-sm-4 ">Total Point</h6>
+								<div class="col-sm-8">
+									<h6 th:text="${assignments.totalPoint}"></h6>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<h6 class="col-sm-4 ">Assigned Date</h6>
+								<div class="col-sm-8">
+									<h6 th:text="${assignments.dateAssigned}"></h6>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<h6 class="col-sm-4 ">Due Date</h6>
+								<div class="col-sm-8">
+									<h6 th:text="${assignments.dueDate}"></h6>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<h6 class="col-sm-4 ">Asssignment Instructions</h6>
+								<div class="col-sm-8">
+									<h6 th:text="${assignments.instruction}"></h6>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<h6 class="col-sm-4 ">Asssignment Description</h6>
+								<div class="col-sm-8">
+									<h6 th:text="${assignments.description}"></h6>
+								</div>
+							</div>
+							<form method="post" th:action="@{/students/assignments/answer(assignmentId=${assignments.id},teacherCourseStudentId=${teacherCourseStudentId},tcId=${tcId})}"
+								th:object="${dto}">
+								<div class="row mb-3" th:if="${tcsa.status == 0}">
+									<h6 class="col-sm-4 ">Asssignment Content</h6>
+									<div class="col-sm-8">
+										<textarea class="form-control" rows="6" th:field="${dto.assignmentContent}"></textarea>
+									</div>
+								</div>
+								<div class="row mb-3" th:if="${tcsa.status == 1}">
+									<h6 class="col-sm-4 ">Asssignment Content</h6>
+									<div class="col-sm-8">
+										<textarea class="form-control" rows="6" th:text="${tcsa.assignmentContent}" readonly></textarea>
+									</div>
+								</div>
+								<div class="row mb-3" th:if="${tcsa.status == 2}">
+									<h6 class="col-sm-4 ">Feedback</h6>
+									<div class="col-sm-8">
+										<textarea class="form-control" rows="6" th:text="${tcsa.feedback}" readonly></textarea>
+									</div>
+								</div>
+								<div class="row mb-3" th:if="${tcsa.status == 2}">
+									<h6 class="col-sm-4 ">Grade</h6>
+									<div class="col-sm-8">
+										 <textarea class="form-control" rows="1" th:text="${tcsa.grade}" readonly></textarea>
+									</div>
+								</div>
+								<div class="row">
+									<div class="offset-sm-4 col-sm-4 d-grid" >
+										<button type="submit" class="btn btn-primary" th:if="${tcsa.status == 0}">Submit</button>
+									</div>
+									<div class="col-sm-4 d-grid">
+										
+										<a class="btn btn-outline-primary" th:href="@{/students/courses/viewDetail (id=${tcId},tcsId=${teacherCourseStudentId})}" role="button">Cancel</a>
+									</div>
+								</div>
+							</form>
+				
+						</div>
+					</div>
+				</div><!--end row-->
+			</div>
+		</div>
+<div th:include="layout/adminfooter"></div>

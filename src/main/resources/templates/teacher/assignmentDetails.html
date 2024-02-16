@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/teacher :: headLink"></head>
+<body>
+	<!--wrapper-->
+	<div class="wrapper">
+		<div class="sidebar-wrapper" data-simplebar="true">
+			<div class="sidebar-header">
+				<div>
+					<img src="/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+				</div>
+				<div>
+					<h4 class="logo-text">School Management</h4>
+				</div>
+				<div class="toggle-icon ms-auto">				
+				</div>
+			 </div>
+			<ul class="metismenu" id="menu" th:replace="layout/teacher :: sidebar"></ul>
+				</li>
+			</ul>
+		</div>
+		<!--end sidebar wrapper -->
+		<!--start header -->
+		<header th:replace="layout/teacher :: headerSection"></header>
+		<div class="page-wrapper">
+			<div class="page-content">
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">School Management</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="/teachers/teacherCourses"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Assignment Details</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+				
+				<div class="container">
+					<div class="main-body">
+						<div class="row">
+							<div class="col-lg-1"></div>
+							<div class="col-lg-10">
+								<div class="card">
+									<div class="card-body">
+										<div class="row mb-4">
+											<div class="col-sm-3">
+												<h6 class="mb-0">Assignment Title</h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<h6 class="mb-0"  th:text="${assignments.title}"></h6>
+											</div>
+										</div>	
+										<div class="row mb-4">									
+											<div class="col-sm-3">
+												<h6 class="mb-0">Class Name</h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<h6 class="mb-0"  th:text="${assignments.teacherCourses.name}"></h6>
+											</div>
+										</div>
+										<div class="row mb-4">
+											<div class="col-sm-3">
+												<h6 class="mb-0">Subject Name</h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<h6 class="mb-0"  th:text="${assignments.teacherCourses.courses.name}"></h6>
+											</div>
+										</div>
+										<div class="row mb-4">
+											<div class="col-sm-3">
+												<h6 class="mb-0">Assigned Date</h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<h6 class="mb-0"  th:text="${assignments.dateAssigned}"></h6>
+											</div>
+										</div>
+										<div class="row mb-4">
+											<div class="col-sm-3">
+												<h6 class="mb-0">Due Date </h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<h6 class="mb-0"  th:text="${assignments.dueDate}"></h6>
+											</div>
+										</div>
+										<div class="row mb-4">
+											<div class="col-sm-3">
+												<h6 class="mb-0">Total Mark</h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<h6 class="mb-0"  th:text="${assignments.totalPoint}"></h6>
+											</div>
+										</div>
+										<div class="row mb-4">
+											<div class="col-sm-3">
+												<h6 class="mb-0">Assignment Description</h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<textarea class="form-control" readonly rows="4" th:text="${assignments.description}"></textarea>										
+											</div>
+										</div>
+										<div class="row mb-4">
+											<div class="col-sm-3">
+												<h6 class="mb-0">Assignment Instruction</h6>
+											</div>
+											<div class="col-sm-9 text-secondary">
+												<textarea class="form-control" readonly rows="4" th:text="${assignments.instruction}"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-1"></div>
+						</div>
+						
+						
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+										<div class="breadcrumb-title" th:text="${'Total Student: '+classStudentCount+' | Done Student : '+answeredStudentCount}"></div>
+										</div>
+										</div>
+										<div class="d-lg-flex align-items-center mb-4 gap-3">
+												<div class="position-relative">
+														<input type="text" class="form-control ps-5 radius-30" placeholder="Search "> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
+												</div>
+												<div class="form-check form-switch position-relative">
+    												<input class="form-check-input ml-3" style="font-size:20px;" type="checkbox" role="switch" id="flexSwitchCheckDefault1" checked onchange="toggleSwitch(this)">
+   													 <label class="form-check-label" for="flexSwitchCheckDefault1" id="switchLabel">Done</label>
+												</div>
+										</div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+									<thead class="table-light">
+										<tr>
+											<th>No</th>
+											<th>Student Name</th>
+											<th>Class Name</th>
+											<th>Subject</th>
+											<th>Assignment Title</th>
+											<th>Total Point</th>
+											<th>Grade</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="tcsa,increator: ${tcsaList}">
+											<td>
+												<div class="d-flex align-items-center">
+													<div class="ms-2">
+														<h6 class="mb-0 font-14" th:text="${increator.index + 1}"></h6>
+													</div>
+												</div>
+											</td>
+											<td th:text="${tcsa.teacherCourseStudents.students.name}"></td>
+											<td th:text="${tcsa.assignments.teacherCourses.name}"></td>
+											<td th:text="${tcsa.assignments.teacherCourses.courses.name}"></td>
+											<td th:text="${tcsa.assignments.title}"></td>
+											<td th:text="${tcsa.assignments.totalPoint}"></td>
+											<td th:text="${tcsa.grade}"></td>
+											<td>
+   												 <a class="btn btn-sm radius-30 px-4"
+    												   th:classappend="${tcsa.status == 1 ? 'btn-warning' : 'btn-success'}">
+       												  <span th:text="${tcsa.status == 1 ? 'Pending' : 'Done'}">
+														 </span>
+  												  </a>
+											</td>
+											<td class="text-left">
+    												<a th:href="@{/teachers/assignments/check(id=${tcsa.id}, asmId=${tcsa.assignments.id}, tcsId=${tcsa.teacherCourseStudents.id})}"
+  													 th:if="${tcsa.status == 1}" class="btn btn-primary btn-sm radius-30 px-4">Check</a>
+  													 
+   													 <a th:href="@{/teachers/assignments/check(id=${tcsa.id}, asmId=${tcsa.assignments.id}, tcsId=${tcsa.teacherCourseStudents.id})}"
+   													 th:unless="${tcsa.status == 1}" class="btn btn-success btn-sm radius-30 px-4">View</a>
+											</td>
+
+											
+									</tbody>
+								</table>
+									</div>
+							    </div>
+							</div>
+						</div>	
+						
+					</div>
+				</div>
+			</div>
+		</div>
+<div th:include="layout/adminfooter"></div>
